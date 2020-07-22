@@ -6,16 +6,32 @@
     "@testing-library/jest-dom": "^4.2.4",
     "@testing-library/react": "^9.3.2",
     "@testing-library/user-event": "^7.1.2",
+    "antd": "^4.4.3",
+    "axios": "^0.19.2",
+    "babel-plugin-import": "^1.13.0",
+    "customize-cra": "^1.0.0",
+    "file-saver": "^2.0.2",
+    "jszip": "^3.5.0",
     "react": "^16.13.1",
+    "react-app-rewired": "^2.1.6",
     "react-dom": "^16.13.1",
-    "react-scripts": "3.4.1"
+    "react-redux": "^7.2.0",
+    "react-scripts": "3.4.1",
+    "redux": "^4.0.5",
+    "svga.lite": "^1.4.0"
   },
   "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "start": "react-app-rewired start",
+    "build": "react-app-rewired build",
+    "test": "react-app-rewired test",
+    "eject": "react-app-rewired eject"
   },
+  "author": "jsmask",
+  "keywords": [
+    "react",
+    "electron"
+  ],
+  "license": "ISC",
   "eslintConfig": {
     "extends": "react-app"
   },
