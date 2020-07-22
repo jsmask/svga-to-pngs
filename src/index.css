@@ -17,7 +17,7 @@ code {
   width            : 640px;
   height           : 360px;
   background-repeat: no-repeat;
-  background-image : url(//svga.io/assets/v1/frame.png),url(//svga.io/assets/v1/frame-active.png);
+  background-image : url("./assets/frame.png"),url("./assets/frame-active.png");
   position: relative;
   box-sizing: border-box;
   margin: 25px 30px;
@@ -37,7 +37,7 @@ code {
 }
 
 .show-box.is-active{
-  background-image : url(//svga.io/assets/v1/frame-active.png);
+  background-image : url("./assets/frame-active.png");
 }
 
 .show-box.is-active::after {
