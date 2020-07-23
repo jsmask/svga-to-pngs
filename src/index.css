@@ -117,3 +117,14 @@ html,body,#root,.main{
   border:1px solid #333333;
   cursor: pointer;
 }
+
+.github-link{
+  float: right;
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+  height: 100%;
+}
+.github-svg{
+  font-size: 28px;
+}

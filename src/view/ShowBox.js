@@ -1,7 +1,9 @@
 import React, { createRef } from 'react';
 import PlayBox from './PlayBox';
+import { GithubOutlined } from '@ant-design/icons';
 import { message,Layout } from 'antd';
 const { Header, Footer, Content } = Layout;
+
 
 class ShowBox extends React.Component {
     constructor(props) {
@@ -102,6 +104,9 @@ class ShowBox extends React.Component {
                     <Layout>
                         <Header>
                            <span className="logo">SVGA TO PNGS</span>
+                           <a className="github-link" href="https://github.com/jsmask" rel="noopener noreferrer" target="_blank">
+                                <GithubOutlined className="github-svg" />
+                           </a>
                         </Header>
                         <Content>
                             <div ref={this.showbox} className={`show-box ${this.state.isdrop === true ? 'is-active' : ''}`}>
@@ -109,7 +114,9 @@ class ShowBox extends React.Component {
                                 {this.state.file === "" ? "" : <PlayBox file={this.state.file} onclear = {this.onClear.bind(this)} />}
                             </div>
                         </Content>
-                        <Footer></Footer>
+                        <Footer>
+                           
+                        </Footer>
                     </Layout>
                 </Layout>
 
