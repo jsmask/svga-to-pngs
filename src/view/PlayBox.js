@@ -27,8 +27,8 @@ class PlayBox extends React.Component {
     }
 
     componentDidMount() {
-        const downloader = new Downloader()
-        const parser = new Parser()
+        const downloader = new Downloader();
+        const parser = new Parser();
         const player = new Player(this.canvas.current);
 
         this.createTable();
@@ -112,12 +112,9 @@ class PlayBox extends React.Component {
                 player
             });
 
-            this.state.player.start();
+            //this.state.player.start();
 
-            console.log(this.state.player)
-
-            
-
+            //console.log(this.state.player)
         })()
     }
 

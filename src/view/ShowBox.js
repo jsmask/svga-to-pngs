@@ -87,6 +87,11 @@ class ShowBox extends React.Component {
 
     onChangeFile(e){
         if(this.fileinput.current.value==="") return false;
+        let names = e.target.files[0].name.split(".");
+        if (names[names.length - 1] !== "svga") {
+            message.error('no svga');
+            return false;
+        }
         this.loadMyFile(e.target.files[0])
     }
 
