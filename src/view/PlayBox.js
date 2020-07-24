@@ -70,11 +70,11 @@ class PlayBox extends React.Component {
                         progress: 0
                     });
                     if(this.state.iscreate){
-                        if(player.videoItem.frames>this.state.list.length&&!this.state.iscust){
-                            this.createImages();
-                        }
+                        // if(player.videoItem.frames>this.state.list.length&&!this.state.iscust){
+                        //     this.createImages();
+                        // }
                         if(this.state.iscust){
-                            this.createImages();
+                            //this.createImages();
                             timer = setInterval(()=>{
                                 this.createImages();
                             },player._animator.duration/this.state.custnum);

@@ -1,8 +1,11 @@
 import React, { createRef } from 'react';
 import PlayBox from './PlayBox';
-import { GithubOutlined } from '@ant-design/icons';
-import { message,Layout } from 'antd';
+import ChangeBese64 from './ChangeBese64';
+
+import { GithubOutlined,SyncOutlined } from '@ant-design/icons';
+import { message, Layout, Button } from 'antd';
 const { Header, Footer, Content } = Layout;
+
 
 
 class ShowBox extends React.Component {
@@ -10,7 +13,8 @@ class ShowBox extends React.Component {
         super(props);
         this.state = {
             file: "",
-            isdrop: false
+            isdrop: false,
+            ischange: false
         }
         this.showbox = createRef();
         this.fileinput = createRef();
@@ -26,6 +30,13 @@ class ShowBox extends React.Component {
     componentDidMount() {
         document.addEventListener("drop", this.ondrop);
         document.addEventListener("dragover", this.ondragover);
+        this.showbox.current.addEventListener("dragenter", this.ondragenterbox);
+        this.showbox.current.addEventListener("dragleave", this.ondragleavebox);
+        this.showbox.current.addEventListener("drop", this.ondropintobox);
+    }
+
+    componentDidUpdate(){
+        if(this.showbox.current==null) return;
         this.showbox.current.addEventListener("dragenter", this.ondragenterbox);
         this.showbox.current.addEventListener("dragleave", this.ondragleavebox);
         this.showbox.current.addEventListener("drop", this.ondropintobox);
@@ -74,21 +85,22 @@ class ShowBox extends React.Component {
         let reader = new FileReader();
         reader.readAsDataURL(file);
         reader.onload = () => {
+            console.log(reader.result)
             this.setState({
                 file: reader.result
             })
         }
     }
 
-    onClear(){    
-        this.fileinput.current.value = "";    
+    onClear() {
+        if(this.fileinput.current) this.fileinput.current.value = "";
         this.setState({
-            file:""
+            file: ""
         })
     }
 
-    onChangeFile(e){
-        if(this.fileinput.current.value==="") return false;
+    onChangeFile(e) {
+        if (this.fileinput.current.value === "") return false;
         let names = e.target.files[0].name.split(".");
         if (names[names.length - 1] !== "svga") {
             message.error('no svga');
@@ -97,25 +109,48 @@ class ShowBox extends React.Component {
         this.loadMyFile(e.target.files[0])
     }
 
+    changeBase64State(state){
+        this.setState({
+            ischange:state
+        });
+        this.onClear();
+    }
+
     render() {
         return (
             <>
                 <Layout className="main">
                     <Layout>
                         <Header>
-                           <span className="logo">SVGA TO PNGS</span>
-                           <a className="github-link" href="https://github.com/jsmask" rel="noopener noreferrer" target="_blank">
+                            <span className="logo" onClick={this.changeBase64State.bind(this,false)}>SVGA TO PNGS</span>
+                            <a className="github-link" href="https://github.com/jsmask" rel="noopener noreferrer" target="_blank">
                                 <GithubOutlined className="github-svg" />
-                           </a>
+                            </a>
+
+                            <Button style={{marginLeft:"60px"}} onClick={this.changeBase64State.bind(this,!this.state.ischange)}  type="primary" shape="round">
+                                <SyncOutlined />
+                                {
+                                    !this.state.ischange?'base64 change':'to pngs'
+                                }
+                                
+                            </Button>
+
                         </Header>
                         <Content>
-                            <div ref={this.showbox} className={`show-box ${this.state.isdrop === true ? 'is-active' : ''}`}>
-                                <input ref={this.fileinput} type="file" accept="*.svga" onChange={this.onChangeFile.bind(this)} />
-                                {this.state.file === "" ? "" : <PlayBox file={this.state.file} onclear = {this.onClear.bind(this)} />}
-                            </div>
+                            {
+                                this.state.ischange === false ?
+                                    (
+                                        <div ref={this.showbox} className={`show-box ${this.state.isdrop === true ? 'is-active' : ''}`}>
+                                            <input ref={this.fileinput} type="file" accept="*.svga" onChange={this.onChangeFile.bind(this)} />
+                                            {this.state.file === "" ? "" : <PlayBox file={this.state.file} onclear={this.onClear.bind(this)} />}
+                                        </div>
+                                    ) : <ChangeBese64 />
+                            }
+
+
                         </Content>
                         <Footer>
-                           
+
                         </Footer>
                     </Layout>
                 </Layout>

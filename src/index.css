@@ -99,6 +99,8 @@ html,body,#root,.main{
   font: "San Francisco","Helvetica Neue",Helvetica,Arial,"PingFang SC","Hiragino Sans GB","Microsoft YaHei","WenQuanYi Micro Hei",sans-serif;
   font-size: 28px;
   color: #ffffff;
+  float: left;
+  cursor: pointer;
 }
 
 .color-box{
