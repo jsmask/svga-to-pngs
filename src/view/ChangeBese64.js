@@ -11,7 +11,8 @@ class ChangeBese64 extends Component {
         super(props);
         this.state = {
             error: null,
-            file: ""
+            file: "",
+            player:null
         }
         this.onChange = this.onChange.bind(this);
         this.canvas = createRef();
@@ -38,16 +39,24 @@ class ChangeBese64 extends Component {
         return pwd;
     }
 
-    createAnimation(file) {
+   createAnimation(file) {
         const downloader = new Downloader();
         const parser = new Parser();
-        const player = new Player(this.canvas.current);
 
         ; (async () => {
+            let player = null;
+            if(this.state.player==null){
+                player = new Player(this.canvas.current);
+                this.setState({
+                    player
+                })
+            }else{
+                player = this.state.player;
+            }
             try {
                 const fileData = await downloader.get(file);
-
                 const svgaData = await parser.do(fileData);
+                player.clear();
                 player.set({
                     loop: -1,
                     fillMode: 'forwards'
@@ -91,7 +100,7 @@ class ChangeBese64 extends Component {
                     onSearch={this.onChange}
                 />
                 <div style={{ margin: "30px" }}>
-                    <canvas style={{ backgroundColor: "#000000" }} ref={this.canvas}></canvas>
+                    <canvas style={{ backgroundColor: "#000000", maxHeight:"480px" }} ref={this.canvas}></canvas>
                 </div>
                 <Button style={{ marginLeft: "30px" }} disabled={this.state.file === ""} type="primary" icon={<DownloadOutlined />} onClick={this.onDownload.bind(this)} >
                     Download

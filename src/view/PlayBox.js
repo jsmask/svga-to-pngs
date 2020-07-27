@@ -186,10 +186,19 @@ class PlayBox extends React.Component {
 
     onDel(key, record, index) {
         let list = [...this.state.list];
-        list.splice(index, 1);
+        list.splice(this.getListIndex(record, list), 1);
         this.setState({
             list
         })
+    }
+
+    getListIndex(obj,list){
+        for (let i = 0; i < list.length; i++) {
+            if(obj.key===list[i].key){
+                return i;
+            }
+        }
+        return -1;
     }
 
     onDownLoad(key, record, index) {
@@ -293,7 +302,7 @@ class PlayBox extends React.Component {
                         </TabPane>
 
                         <TabPane tab="More" key="2">
-                            {<Table columns={columns} dataSource={list} />}
+                            <Table columns={columns} dataSource={list} />
                         </TabPane>
                     </Tabs>
 
