@@ -2,7 +2,7 @@ import React, { createRef } from 'react';
 import PlayBox from './PlayBox';
 import ChangeBese64 from './ChangeBese64';
 
-import { GithubOutlined,SyncOutlined } from '@ant-design/icons';
+import { GithubOutlined, SyncOutlined } from '@ant-design/icons';
 import { message, Layout, Button } from 'antd';
 const { Header, Footer, Content } = Layout;
 
@@ -35,11 +35,12 @@ class ShowBox extends React.Component {
         this.showbox.current.addEventListener("drop", this.ondropintobox);
     }
 
-    componentDidUpdate(){
-        if(this.showbox.current==null) return;
-        this.showbox.current.addEventListener("dragenter", this.ondragenterbox);
-        this.showbox.current.addEventListener("dragleave", this.ondragleavebox);
-        this.showbox.current.addEventListener("drop", this.ondropintobox);
+    componentDidUpdate(newprop, newstate) {
+        if (newstate.ischange) {
+            this.showbox.current.addEventListener("dragenter", this.ondragenterbox);
+            this.showbox.current.addEventListener("dragleave", this.ondragleavebox);
+            this.showbox.current.addEventListener("drop", this.ondropintobox);
+        }
     }
 
     ondragover(e) {
@@ -93,7 +94,7 @@ class ShowBox extends React.Component {
     }
 
     onClear() {
-        if(this.fileinput.current) this.fileinput.current.value = "";
+        if (this.fileinput.current) this.fileinput.current.value = "";
         this.setState({
             file: ""
         })
@@ -109,9 +110,9 @@ class ShowBox extends React.Component {
         this.loadMyFile(e.target.files[0])
     }
 
-    changeBase64State(state){
+    changeBase64State(state) {
         this.setState({
-            ischange:state
+            ischange: state
         });
         this.onClear();
     }
@@ -122,17 +123,17 @@ class ShowBox extends React.Component {
                 <Layout className="main">
                     <Layout>
                         <Header>
-                            <span className="logo" onClick={this.changeBase64State.bind(this,false)}>SVGA TO PNGS</span>
+                            <span className="logo" onClick={this.changeBase64State.bind(this, false)}>SVGA TO PNGS</span>
                             <a className="github-link" href="https://github.com/jsmask" rel="noopener noreferrer" target="_blank">
                                 <GithubOutlined className="github-svg" />
                             </a>
 
-                            <Button style={{marginLeft:"60px"}} onClick={this.changeBase64State.bind(this,!this.state.ischange)}  type="primary" shape="round">
+                            <Button style={{ marginLeft: "60px" }} onClick={this.changeBase64State.bind(this, !this.state.ischange)} type="primary" shape="round">
                                 <SyncOutlined />
                                 {
-                                    !this.state.ischange?'base64 change':'to pngs'
+                                    !this.state.ischange ? 'base64 change' : 'to pngs'
                                 }
-                                
+
                             </Button>
 
                         </Header>

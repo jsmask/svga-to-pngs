@@ -21,9 +21,14 @@ class PlayBox extends React.Component {
             iscust: false,
             colors: ['#000000', '#ffffff', 'rgb(234, 236, 63)', 'rgb(235, 75, 47)', '#596feb', '#b4e93a'],
             colorindex: 0,
-            iscreate:true
+            iscreate:true,
+            timer:null
         }
         this.canvas = createRef();
+    }
+
+    componentWillUnmount(){
+       this.state.player&&this.state.player.clear();
     }
 
     componentDidMount() {
@@ -39,7 +44,7 @@ class PlayBox extends React.Component {
             // this.canvas.current.height = this.canvas.current.clientHeight;
 
             const fileData = await downloader.get(this.props.file)
-            const svgaData = await parser.do(fileData)
+            const svgaData = await parser.do(fileData);
 
             player.set({
                 loop: 1,
@@ -62,8 +67,6 @@ class PlayBox extends React.Component {
                 }
             }
 
-            var timer = null;
-
             player
                 .$on('start', () => {
                     this.setState({
@@ -75,27 +78,26 @@ class PlayBox extends React.Component {
                         // }
                         if(this.state.iscust){
                             //this.createImages();
-                            timer = setInterval(()=>{
+                            let timer = setInterval(()=>{
                                 this.createImages();
                             },player._animator.duration/this.state.custnum);
+                            this.setState({
+                                timer
+                            });
                         }
                     }
                 })
                 .$on('pause', () => {                   
-                    clearInterval(timer)
-                    timer = null;
+                    this.clearTimer();
                 })
                 .$on('stop', () => {
-                    clearInterval(timer)
-                    timer = null;
+                    this.clearTimer();
                 })
                 .$on('end', () => {
-                    clearInterval(timer)
-                    timer = null;
+                    this.clearTimer();
                 })
                 .$on('clear', () => {
-                    clearInterval(timer)
-                    timer = null;
+                    this.clearTimer();
                 })
                 .$on('process', (e) => {
                     this.setState({
@@ -116,6 +118,13 @@ class PlayBox extends React.Component {
 
             //console.log(this.state.player)
         })()
+    }
+
+    clearTimer(){
+        if(this.state.timer){
+            clearInterval(this.state.timer);
+        }
+        this.setState({timer:null});
     }
 
     onPlay(){
